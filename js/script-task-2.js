@@ -1,73 +1,42 @@
-// function isNumber(element, indexStart) {
-//   result = true;
-//   if (element.length >= indexStart + 2) {
-//     if (
-//       element[indexStart] >= 1 &&
-//       element[indexStart] <= 9 &&
-//       element[indexStart + 1] >= 1 &&
-//       element[indexStart + 1] <= 9 &&
-//       element[indexStart + 2] >= 1 &&
-//       element[indexStart + 2] <= 9
-//     ) {
-//       result = true;
-//     } else {
-//       result = false;
-//     }
-//   }
-//   return result;
-// }
+// 2. Дана матрица из целых чисел от 1 до 9, размером 3 * N, где N может быть
+// больше либо равна 3. Необходимо определить содержит ли каждый участок
+// матрицы 3 * 3 все числа от 1 до 9.
+// Например:
+// Входные данные:
+// [[1, 2, 3, 2, 7][(4, 5, 6, 8, 1)][(7, 8, 9, 4, 5)]];
+// 1 участок:
+// 1 2 3
+// 4 5 6
+// 7 8 9
+// содержит все цифры от 1 до 9
+// 2 участок:
+// 2 3 2
+// 5 6 8
+// 8 9 4
+// не содержит все цифры от 1 до 9
+// 3 участок:
+// 3 2 7
+// 6 8 1
+// 9 4 5
+// содержит все цифры от 1 до 9
+// [true, false, true];
 
-function isSorted(numbers) {
-  let array = [];
+function Matr(element) {
+  const list = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+  const start = element[0].length - 3;
   let result = [];
-
-  for (let i = 0; i < numbers.length; i++) {
-    indexStart = 0;
-    let element = numbers[i];
-    if (i >= 2) {
-      for (let index = 0; index < element.length; index++) {
-        if (
-          numbers[i].length > indexStart + 2 &&
-          numbers[i - 1].length > indexStart + 2 &&
-          numbers[i - 2].length > indexStart + 2
-        ) {
-          if (
-            isNumber(numbers[i], indexStart) &&
-            isNumber(numbers[i - 1], indexStart) &&
-            isNumber(numbers[i - 2], indexStart)
-          ) {
-            result.push(true);
-          } else {
-            result.push(false);
-          }
-        }
-        indexStart++;
-      }
-    }
-  }
-  console.log('result', result);
-  return result;
-}
-function isNumber(element, indexStart) {
-  result = true;
-  if (element.length >= indexStart + 2) {
-    if (
-      element[indexStart] >= 1 &&
-      element[indexStart] <= 9 &&
-      element[indexStart + 1] >= 1 &&
-      element[indexStart + 1] <= 9 &&
-      element[indexStart + 2] >= 1 &&
-      element[indexStart + 2] <= 9
-    ) {
-      result = true;
+  for (let i = 0; i <= start; i++) {
+    const section = element.map(row => row.slice(i, i + 3)).flat();
+    if (list.every(el => section.includes(el))) {
+      result.push(true);
     } else {
-      result = false;
+      result.push(false);
     }
   }
+  console.log(result);
   return result;
 }
-
-isSorted([
+Matr([
   [1, 2, 3, 2, 7],
   [4, 5, 6, 8, 1],
   [7, 8, 9, 4, 5],
