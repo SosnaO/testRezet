@@ -1,3 +1,5 @@
+function isNumber()
+
 function isSorted(numbers) {
   let array = [];
   let result = [];
