@@ -27,40 +27,55 @@
 //   '*He loves tacos  *',
 //   '******************')
 // ];
-
-function formating(array) {
-  let position = ['LEFT', 'RIGHT', 'LEFT'];
+function formattting2(ar) {
   const result = [];
-
-  array.forEach((el, i) => {
-    let string = el.join(' ');
+  ar.forEach(el => {
+    let string = el.string;
     let number = Math.abs(16 - string.length);
     let right = '*' + ' '.repeat(number) + 'a*';
     let left = '*a' + ' '.repeat(number) + '*';
-    if (string.length < 16) {
-      if (position[i] === 'LEFT') {
-        string = left.replace('a', string);
-        result.push(string);
-      } else {
-        string = right.replace('a', string);
-        result.push(string);
-      }
+    if (el.position === 'LEFT') {
+      string = left.replace('a', string);
+      result.push(string);
     } else {
-      let subArray = [[el.splice(0, el.length / 2).join(' ')], [el.join(' ')]];
-      subArray.forEach(el => {
-        string = el.join(' ');
-        if (string.length < 16) {
-          if (position[i] === 'LEFT') {
-            string = left.replace('a', string);
-            result.push(string);
-          } else {
-            string = right.replace('a', string);
-            result.push(string);
-          }
-        }
-      });
+      string = right.replace('a', string);
+      result.push(string);
     }
   });
+  return result;
+}
+function formating(array) {
+  let position = ['LEFT', 'RIGHT', 'LEFT'];
+  let result = [];
+  array.forEach((el, i) => {
+    let string = el.join(' ');
+    if (string.length < 16) {
+      result.push({
+        string: string,
+        position: position[i],
+      });
+    } else {
+      let resultString = '';
+      for (let j = 0; j < el.length; j++) {
+        if (String(resultString + ' ' + el[j]).length > 16) {
+          result.push({
+            string: resultString,
+            position: position[i],
+          });
+          resultString = el[j];
+        } else {
+          resultString = String(resultString + ' ' + el[j]).trimStart();
+        }
+      }
+      if (resultString.length > 0) {
+        result.push({
+          string: resultString,
+          position: position[i],
+        });
+      }
+    }
+  });
+  result = formattting2(result);
   result.push('******************');
   result.unshift('******************');
   console.log(result);
